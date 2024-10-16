@@ -1,0 +1,32 @@
+<!Doctpye HTML>
+
+<head>
+<title>Circles</title>
+<link href = "CircStyles.css" rel= "stylesheet" type="text/css">
+</head>
+<body>
+<div id = "page">
+<ul style="border: groove 5px #118bbf;">
+  <li><a class="active" href="index.html">Home</a></li>
+</ul>
+<div class = "left-buttons">
+<div class = "cv">
+<u><p>Simulation Controls</p></u>
+<button onclick = "Clear()">Clear Drawing</button>
+<button>Clear Balls</button>
+<button onclick = "draw()">Test</button>
+<button>...</button>
+<button>C...</button>
+<button>C...g</button>
+<u><p>Presets</p></u>
+<button onclick = "drawCircle()">Circle</button>
+<button onclick = "drawTriangle()">Triangle</button>
+<button onclick = "drawSquare()">Square</button>
+<button onclick = "drawPent()">Pentagon</button>
+<button onclick = "drawHex()">Hexagon</button>
+</div>
+</div>
+<canvas onmousedown="addBall()" id='root' style="border: 2px solid lightgray; border-radius: 5px; background-color: #3e2443; width: 99.8%; height: 80vh"></canvas>
+</div>
+  <script type = "text/javascript" src="CircScript.js"></script>
+</body>

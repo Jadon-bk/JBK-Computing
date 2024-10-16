@@ -1,0 +1,655 @@
+<!Doctpye HTML>
+<html>
+<head>
+<title>Solar System</title>
+<style>
+@charset "utf-8";
+body
+{
+    margin: 0px;
+    padding: 20px;
+    background-color: #118bbf;
+    font-family: Ariel, Helvetica, "sans-serif";
+    font-size: 18px;
+    text-align: center;
+}
+#page
+{
+  border: double 15px black;
+  background-color: #bfa475;
+}
+
+#button
+{
+  padding: 5px;
+  position: absolute;
+  left: 40px;
+  top: 110px;
+}
+
+#canvasroot
+{
+  border: 2px solid lightgray;
+  border-radius: 5px;
+  width: 60%;
+  background-color: #3e2443;
+}
+
+#canvassec
+{
+  border: 2px solid lightgray;
+  border-radius: 5px;
+  width: 35%;
+  margin-left: auto;
+  margin-top: -804px;
+}
+
+#canvasThird{
+  border: 2px solid lightgray;
+  border-radius: 5px;
+  width: 35%;
+  margin-left: auto;
+}
+
+#Planet_buttons{
+  padding: 5px;
+}
+
+/* The Modal (background) */
+.modal {
+
+  top: 18%;
+  left: 3%;
+  font-size: 15px;
+  max-width: 300px;
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+
+  overflow: auto; /* Enable scroll if needed */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #efc5f7;
+  padding: 20px;
+  border: 5px double #888;
+}
+
+/* The close button for both modals (add and key)*/
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#border
+{
+  border: groove 5px #118bbf;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #af8c50;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #111;
+}
+</style>
+</head>
+<body>
+<div id = "page">
+<div id = "border">
+<ul>
+  <li><a class="active" href="../index.html">Home</a></li>
+  <li style="float:right"><a href="about.html">About</a></li>
+  <li style="float:right"><a href="https://nssdc.gsfc.nasa.gov/planetary/factsheet/" target="_blank" >Stats</a></li>
+  <li style="float:right"><a href="https://nssdc.gsfc.nasa.gov/planetary/factsheet/planetfact_notes.html#orbi" target="_blank" >Definitions</a></li>
+</ul>
+</div>
+<div id = "button">
+<button id = "startbtn" onclick = start()>Start</button>
+<!-- <button onclick = stop()>Reset</button> -->
+<button id = "pausebtn" onclick = pausing()>Pause</button>
+<button onclick = add()>Add</button>
+<button onclick = wipe()>Clear</button>
+<button onclick = togTrail()>Toggle Trail</button>
+</div>
+<p>Sun: <span style = "color:#ffe600;">● </span>Mercury: <span style = "color:#ffa500;">● </span> Venus: <span style = "color:#b03800;">● </span> Earth: <span style = "color:#1898F3;">● </span> Mars: <span style = "color:#ff0000;">● </span></p>
+<div id = "canvasroot">
+<canvas id='root' width='1200' height='800'></canvas>
+</div>
+<div id = "canvassec">
+  <div id = "Planet_buttons" oncontextmenu="return false;">
+  <img src= "../Solar Images/Sun.jpg" onclick=sun_L() oncontextmenu="sun_R()" style = "border: 2px solid lightgray;">
+  <img src= "../Solar Images/Mercury.jpg" onclick = mercury_L() oncontextmenu="mercury_R()" style = "border: 2px solid lightgray;">
+  <img src= "../Solar Images/Venus.jpg" onclick = venus_L() oncontextmenu="venus_R()" style = "border: 2px solid lightgray;">
+  <img src= "../Solar Images/Earth.jpg" onclick = earth_L() oncontextmenu="earth_R()" style = "border: 2px solid lightgray;">
+  <img src= "../Solar Images/Mars.jpg" onclick = mars_L() oncontextmenu="mars_R()" style = "border: 2px solid lightgray;">
+  <img src= "../Solar Images/Jupiter.jpg" onclick = jupiter_L() oncontextmenu="jupiter_R()" style = "border: 2px solid lightgray;">
+  <img src= "../Solar Images/Saturn.jpg" onclick = saturn_L() oncontextmenu="saturn_R()" style = "border: 2px solid lightgray;">
+  <img src= "../Solar Images/Uranus.jpg" onclick = neptune_L() oncontextmenu="neptune_R()" style = "border: 2px solid lightgray;">
+  </div>
+<canvas id='secondary' width='400' height='375'></canvas>
+</div>
+<div id = "canvasThird">
+  <canvas id='tertiary' width='400' height='375'></canvas>
+</div>
+
+<!-- <p id="demo"></p> -->
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <form>
+      <br>
+      <label for="name">Planet name:</label><br>
+      <input type="text" id="name" name="name" value="Origae-6"><br>
+      <label for="x">X coordinate:</label><br>
+      <input type="text" id="x" name="x" value="170"><br>
+      <label for="y">Y coordinate:</label><br>
+      <input type="text" id="y" name="y" value="0"><br>
+      <label for="mass">Planet mass:</label><br>
+      <input type="text" id="mass" name="mass" value="6"><br>
+      <label for="colour">Colour:</label><br>
+      <input type="text" id="colour" name="colour" value="#6B9D56"><br>
+      <label for="rad">Planet size:</label><br>
+      <input type="text" id="rad" name="rad" value="6"><br>
+      <label for="xv">X Velocity:</label><br>
+      <input type="text" id="xv" name="xv" value="0"><br>
+      <label for="yv">Y Velocity:</label><br>
+      <input type="text" id="yv" name="yv" value="3.2">
+      <br>
+      <br>
+    </form>
+    <button onclick = data()>Submit</button>
+  </div>
+
+</div>
+<script type = "text/javascript" src="SolScript.js"></script>  
+</div>
+
+<script>
+  //https://nssdc.gsfc.nasa.gov/planetary/factsheet/
+  const canvas = document.getElementById("root");
+  const ctx = canvas.getContext("2d");
+  const canvas2 = document.getElementById("secondary");
+  const ctx2 = canvas2.getContext("2d");
+  const canvas3 = document.getElementById("tertiary");
+  const ctx3 = canvas3.getContext("2d");
+  canvas.width = 0.55*window.innerWidth;
+  canvas2.width = 0.32*window.innerWidth;
+  canvas3.width = 0.32*window.innerWidth;
+  ctx3.font = "30px Tahoma";
+  ctx3.fillText("Your Solar System:", 0, 30);
+  ctx3.font = "15px sans-serif";
+  var modal = document.getElementById("myModal");
+  var span = document.getElementsByClassName("close")[0];
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+    //Loads the current value stored, to be loaded into canvas2
+  var canvas_contents = localStorage.getItem("loadThis");
+    //Loads the current value stored, to be loaded into the right of canvas2
+  var canvas_R_contents = localStorage.getItem("Right");
+
+  //Variables for Simulation\\
+  const k = 150; //Scalar for 1 Au. 1Au = 150px
+  const G = 1; //1 
+  const sunMass = 300  ; //300
+
+  var sunX = canvas.width/2; //Center vertically
+  var sunY = 400;//Center horizontally, canvas height = 800
+  var comet_count = 0; //Number of comets currently on screen
+  var trail = true;
+  var pause = true;
+  var started = false;
+  //Class holding current x and y coordinates, radius of the planet, colour, mass and velocities
+  class Planet{
+
+    constructor(x, y, r, colour, mass, vx, vy, name){
+      this.x = x;
+      this.y = y;
+      this.r = r;
+      this.colour = colour;
+      this.mass = mass;
+      this.vx = vx;
+      this.vy = vy;
+      this.name = name;
+    }
+    draw(){
+
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI);
+      ctx.fillStyle = this.colour;
+      ctx.fill();
+    }
+    updateX(newX){
+      this.x = newX;
+    }
+    updateY(newY){
+      this.y = newY;
+    }
+    updateVx(newVx){
+      this.vx = newVx;
+    }
+    updateVy(newVy){
+      this.vy = newVy;
+    }
+  }
+
+  function template(x, name, mass, size, temp, peri, apo, day){
+    ctx2.textAlign = 'left';
+    ctx2.font = "30px Tahoma";
+    ctx2.fillText(name +":", x, 50);
+    ctx2.font = "15px Arial";
+    ctx2.fillText("Mean Diameter: " + size + " km", x, 95);
+    ctx2.fillText("Mass: " + mass, x, 120);
+    ctx2.fillText("Mean Surface Temperature: " + temp + "°C", x, 145);
+    ctx2.fillText("Perihelion: " + peri + " million km", x, 170);
+    ctx2.fillText("Aphelion: "+ apo + " million km", x, 195);
+    ctx2.fillText("Length Of Day: "+ day + " hours", x, 220);
+
+  }
+
+  function sun_L(){
+    ctx2.clearRect(0, 0, canvas2.width/2, canvas2.height);
+    template(0, "The Sun", "1.989 × 10^30 kg", "1,392,700", "25,600", "N/A", "N/A", "N/A");
+    localStorage.setItem("loadThis", "Sun");
+  }
+
+  function sun_R(){
+    ctx2.clearRect(canvas2.width/2, 0, canvas2.width, canvas2.height);
+    template(canvas2.width/2, "The Sun", "1.989 × 10^30 kg", "1,392,700", "25,600", "N/A", "N/A", "N/A");
+    localStorage.setItem("Right", "Sun");
+  }
+
+  function mercury_R(){
+    ctx2.clearRect(canvas2.width/2, 0, canvas2.width, canvas2.height);
+    template(canvas2.width/2, "Mercury", "3.285 × 10^23 kg", "4,879.4", "167","46", "69.8", "4222.6");
+    localStorage.setItem("Right", "Mercury");
+  }
+
+  function mercury_L(){
+    ctx2.clearRect(0, 0, canvas2.width/2, canvas2.height);
+    template(0, "Mercury", "3.285 × 10^23 kg", "4,879.4", "167","46", "69.8", "4222.6");
+    localStorage.setItem("loadThis", "Mercury");
+  }
+
+  function venus_R(){
+    ctx2.clearRect(canvas2.width/2, 0, canvas2.width, canvas2.height);
+    template(canvas2.width/2, "Venus", "4.867 × 10^24 kg", "12,104", "464", "107.5", "108.9", "2802.0");
+    localStorage.setItem("Right", "Venus");
+  }
+
+  function venus_L(){
+      ctx2.clearRect(0, 0, canvas2.width/2, canvas2.height);
+      template(0, "Venus", "4.867 × 10^24 kg", "12,104", "464", "107.5", "108.9", "2802.0");
+    localStorage.setItem("loadThis", "Venus");
+  }
+
+  function earth_R(){
+    ctx2.clearRect(canvas2.width/2, 0, canvas2.width, canvas2.height);
+    template(canvas2.width/2, "Earth", "5.972 × 10^24 kg", "12,742", "15", "147.1", "152.1", "24.0");
+    localStorage.setItem("Right", "Earth");
+  }
+
+  function earth_L(){
+    ctx2.clearRect(0, 0, canvas2.width/2, canvas2.height);
+    template(0, "Earth", "5.972 × 10^24 kg", "12,742", "15", "147.1", "152.1", "24.0");
+    localStorage.setItem("loadThis", "Earth");
+  }
+
+  function mars_R(){
+    ctx2.clearRect(canvas2.width/2, 0, canvas2.width, canvas2.height);
+    template(canvas2.width/2, "Mars", "6.39 × 10^23 kg", "6,779", "-65", "206.7", "249.3", "24.7");
+    localStorage.setItem("Right", "Mars");
+  }
+
+  function mars_L(){
+    ctx2.clearRect(0, 0, canvas2.width/2, canvas2.height);
+    template(0, "Mars", "6.39 × 10^23 kg", "6,779", "-65", "206.7", "249.3", "24.7");
+    localStorage.setItem("loadThis", "Mars");
+  }
+
+  function jupiter_L(){
+    ctx2.clearRect(0, 0, canvas2.width/2, canvas2.height);
+    template(0, "Jupiter", "1.90 x 10^27", "142,984", "-110", "740.6", "816.4", "9.9");
+    localStorage.setItem("loadThis", "Jupiter");
+  }
+
+  function jupiter_R(){
+    ctx2.clearRect(canvas2.width/2, 0, canvas2.width, canvas2.height);
+    template(canvas2.width/2, "Jupiter", "1.90 x 10^27", "142,984", "-110", "740.6", "816.4", "9.9");
+    localStorage.setItem("Right", "Jupiter");
+  }
+
+  function saturn_L(){
+    ctx2.clearRect(0, 0, canvas2.width/2, canvas2.height);
+    template(0, "Saturn", "5.68 x 10^26", "120,536", "-140", "1357.6", "1506.5", "10.7");
+    localStorage.setItem("loadThis", "Saturn");
+  }
+
+  function saturn_R(){
+    ctx2.clearRect(canvas2.width/2, 0, canvas2.width, canvas2.height);
+    template(canvas2.width/2, "Saturn", "5.68 x 10^26", "120,536", "-140", "1357.6", "1506.5", "10.7");
+    localStorage.setItem("Right", "Saturn");
+  }
+
+  function neptune_L(){
+    ctx2.clearRect(0, 0, canvas2.width/2, canvas2.height);
+    template(0, "Neptune", "1.02 x 10^26", "51,118", "-195", "2732.7", "3001.4", "17.2");
+    localStorage.setItem("loadThis", "Neptune");
+  }
+
+  function neptune_R(){
+    ctx2.clearRect(canvas2.width/2, 0, canvas2.width, canvas2.height);
+    template(canvas2.width/2, "Neptune", "1.02 x 10^26", "51,118", "-195", "2732.7", "3001.4", "17.2");
+    localStorage.setItem("Right", "Neptune");
+  }
+
+  if(canvas_contents == "Sun"){
+    localStorage.setItem("loadThis", "");
+    sun_L();
+  } else if(canvas_contents == "Mercury"){
+    localStorage.setItem("loadThis", "");
+    mercury_L();
+  } else if(canvas_contents == "Venus"){
+    localStorage.setItem("loadThis", "");
+    venus_L();
+  } else if(canvas_contents == "Earth"){
+    localStorage.setItem("loadThis", "");
+    earth_L();
+  } else if (canvas_contents == "Mars"){
+    localStorage.setItem("loadThis", "");
+    mars_L();
+  } else if (canvas_contents == "Jupiter"){
+    localStorage.setItem("loadThis", "");
+    jupiter_L();
+  } else if (canvas_contents == "Saturn"){
+    localStorage.setItem("loadThis", "");
+    saturn_L();
+  } else if (canvas_contents == "Neptune"){
+    localStorage.setItem("loadThis", "");
+    neptune_L();
+  }
+
+  if(canvas_R_contents == "Sun"){
+    localStorage.setItem("Right", "");
+    sun_R();
+  } else if(canvas_R_contents == "Mercury"){
+    localStorage.setItem("Right", "");
+    mercury_R();
+  } else if(canvas_R_contents == "Venus"){
+    localStorage.setItem("Right", "");
+    venus_R();
+  } else if(canvas_R_contents == "Earth"){
+    localStorage.setItem("Right", "");
+    earth_R();
+  } else if(canvas_R_contents == "Mars"){
+    localStorage.setItem("Right", "");
+    mars_R();
+  } else if(canvas_R_contents == "Jupiter"){
+    localStorage.setItem("Right", "");
+    jupiter_R();
+  } else if(canvas_R_contents == "Saturn"){
+    localStorage.setItem("Right", "");
+    saturn_R();
+  } else if(canvas_R_contents == "Neptune"){
+    localStorage.setItem("Right", "");
+    neptune_R();
+  }
+
+  function start(){
+    if (started ==false){
+      var btn = document.getElementById("startbtn");
+      sun = new Planet(sunX, sunY, 30, "#ffe600", sunMass, 0, 0, "Sun"); //Initialise all planets relative to sunX and sunY.
+      earth =new Planet(sunX+k*1, sunY, 6, "#1898F3", 5, 0, 3, "Earth");
+      mercury = new Planet(sunX+k*0.39, sunY, 2, "orange",3.5, 0, 4, "Mercury");
+      venus = new Planet(sunX+k*0.72, sunY, 4, "#b03800", 4, 0, 2.98, "Venus");
+      mars = new Planet(sunX+k*1.52, sunY, 5, "red", 4.5, 0, 2.5, "Mars");
+      jupiter = new Planet(sunX+k*3.4, sunY, 8, "#cdbdae", 1.2, 0, 0.82, "Jupiter");
+      comet1 = new Planet(-1000000, 0, 0, "yellow", 0, 0, 0, "comet1"); //Comets are placed far from the sun until added by user
+      comet2 = new Planet(-1000000, 0, 0, "yellow",0, 0, 0 , "comet2");
+      comet3 = new Planet(-1000000, 0, 0, "yellow", 0, 0, 0, "comet3");
+      moon = new Planet(earth.x+40, sunY, 1, "gray", 60, 0, 10, "The Moon");
+      btn.innerHTML = 'Stop';
+      started = true;
+
+      let gameTimer = setInterval(move, 20); //Run func move every 20ms
+
+    } else{
+      window.location.reload();
+    }
+  }
+
+  function sim(planet){
+    let xdiff = sun.x-planet.x; //Distance from sun horizontally
+    let ydiff = sun.y-planet.y; //Distance from sun vertically
+
+    let r = (xdiff**2+ydiff**2)**0.5; //Distance from sun
+
+    let xdirect = xdiff/r; //Direction planet must move
+    let ydirect = ydiff/r;
+
+    let ax = sunMass*planet.mass*G/r**2*xdirect; //Acceleration in x
+    let ay = -sunMass*planet.mass*G/r**2*ydirect; //Acceleration in y
+
+    let vel_x = planet.vx+ax; //Velocity in x
+    let vel_y = planet.vy+ay; //Velocity in y
+
+    planet.updateX(planet.x+vel_x);
+    planet.updateY(planet.y-vel_y);
+    planet.updateVx(vel_x);
+    planet.updateVy(vel_y);
+
+  }
+
+  function simmoon(moon, parent){
+    let xdiff = parent.x-moon.x; //Distance from parent horizontally
+    let ydiff = parent.y-moon.y; //Distance from parent vertically
+
+    let r = (xdiff**2+ydiff**2)**0.5; //Distance from parent
+
+    let xdirect = xdiff/r; //Direction planet must move
+    let ydirect = ydiff/r;
+
+    let ax = parent.mass*moon.mass*G/r**2*xdirect; //Acceleration in x
+    let ay = -parent.mass*moon.mass*G/r**2*ydirect; //Acceleration in y
+
+    let vel_x = moon.vx+ax; //Velocity in x
+    let vel_y = moon.vy+ay; //Velocity in y
+
+    return [vel_x, vel_y]
+  }
+
+  function move(){
+
+    if (pause==true){
+      //Moving all planets\\
+      sim(earth);
+      sim(mercury);
+      sim(venus);
+      sim(mars);
+      vmo_list= simmoon(moon, earth);
+      moon = new Planet(moon.x+vmo_list[0], moon.y-vmo_list[1], 1.5, "gray", 600, vmo_list[0], vmo_list[1], moon.name);
+      //Checking for collisions\\
+      object = collision(comet1);
+      if(object==false){
+        sim(comet1);
+      } else{
+        ctx3.fillText(comet1.name + " collided with " + object, 0, 50);
+        comet1 = new Planet(-1000000, 0, 0, "yellow", 0, 0, 0);
+      }
+
+      object = collision(comet2);
+      if(object==false){
+        sim(comet2);
+      } else{
+        ctx3.fillText(comet2.name + " collided with " + object, 0, 150);
+        comet2 = new Planet(-100000000, -1000000, 0, "yellow", 0, 0, 0);
+      }
+
+
+      object = collision(comet3);
+      if(object == false){
+        sim(comet3);
+      } else{
+        ctx3.fillText(comet3.name + " collided with " + object, 0, 250);
+        comet3 = new Planet(100000000, -1000000, 0, "yellow", 0, 0, 0);
+      }
+
+      //Clearing previous planets drawn, animaion vs showing trail\\
+      if (trail==true){
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    }
+    //Drawing Planets\\
+    sun.draw();
+    mercury.draw();
+    venus.draw();
+    earth.draw();
+    mars.draw();
+    comet1.draw();
+    comet2.draw();
+    comet3.draw();
+    moon.draw();
+  }
+
+  function collision(comet){
+
+    let Sunx = sun.x-comet.x;
+    let Suny = sun.y-comet.y;
+    let Sr = (Sunx**2+Suny**2)**0.5;
+
+    let Earthx = earth.x-comet.x;
+    let Earthy = earth.y-comet.y;
+    let Er = (Earthx**2+Earthy**2)**0.5;
+
+    let Venusx = venus.x-comet.x;
+    let Venusy = venus.y-comet.y;
+    let Vr = (Venusx**2+Venusy**2)**0.5;
+
+    let Mercx = mercury.x-comet.x;
+    let Mercy = mercury.y-comet.y;
+    let Mer = (Mercx**2+Mercy**2)**0.5;
+
+    let Marcx = mars.x-comet.x;
+    let Marcy = mars.y-comet.y;
+    let Mar = (Marcx**2+Marcy**2)**0.5;
+
+    let Jupx = jupiter.x-comet.x;
+    let Jupy = jupiter.y-comet.y;
+    let Jur = (Jupx**2+Jupy**2)**0.5;
+
+    if(Sr <= sun.r+comet.r){
+      return "The Sun";
+    }else if(Er <= earth.r+comet.r){
+      earth = new Planet(1000000, 0, 0, "yellow", 0, 0, 0);
+      return "The Earth";
+    } else if (Vr <= venus.r+comet.r){
+      venus = new Planet(1000000, 0, 0, "yellow", 0, 0, 0);
+      return "Venus";
+    } else if(Mer <= mercury.r+comet.r){
+      mercury = new Planet(1000000, 0, 0, "yellow", 0, 0, 0);
+      return "Mercury";
+    } else if(Mar <= mars.r+comet.r){
+      mars = new Planet(1000000, 0, 0, "yellow", 0, 0, 0);
+      return "Mars";
+    } else if(Jur <= jupiter.r+comet.r){
+      jupiter = new Planet(1000000, 0, 0, "yellow", 0, 0, 0);
+      return "Jupiter";
+    } else{
+      return false;
+    }
+  }
+
+
+  function togTrail(){
+    if (trail==false){
+      trail=true;
+    } else if(trail==true){
+      trail=false;
+    }
+  }
+
+  function pausing(){
+    var btn = document.getElementById("pausebtn");
+
+    if (pause==false){
+      pause = true;
+      btn.innerHTML = 'Pause';
+
+    } else if (pause==true){
+      pause = false;
+      btn.innerHTML = 'Play';
+    }
+
+  }
+
+  function wipe(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  function add(){
+    modal.style.display = "block"; //Shows modal
+  }
+
+  function data(){
+
+    //Getting data from form\\
+    const name = document.getElementById('name').value;
+    const xposi = +(document.getElementById('x').value);
+    const yposi = +(document.getElementById('y').value);
+    const mass = Math.abs(+(document.getElementById('mass').value));
+    const colour = document.getElementById('colour').value;
+    const r = +(document.getElementById('rad').value);
+    const x_vel = +(document.getElementById('xv').value);
+    const y_vel = +(document.getElementById('yv').value);
+    modal.style.display = 'none'; //Hiding modal
+
+    //Making new comet with inputs. Max 3\\
+    if (comet_count == 0){
+      comet1 = new Planet(sunX+xposi, sunY-yposi, r, colour, mass, x_vel, y_vel, name);
+      ctx3.clearRect(0, 35, canvas3.width, 30);
+      comet_count += 1
+    } else if (comet_count == 1){
+      comet2 = new Planet(sunX+xposi, sunY-yposi, r, colour, mass, x_vel, y_vel, name);
+      ctx3.clearRect(0, 135, canvas3.width, 23);
+      comet_count += 1
+    } else {
+      comet3 = new Planet(sunX+xposi, sunY-yposi, r, colour, mass, x_vel, y_vel, name);
+      ctx3.clearRect(0, 235, canvas3.width, 23);
+      comet_count = 0
+    } 
+  }
+</script>  
+</div>
+</body>
+</html>

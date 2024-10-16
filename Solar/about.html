@@ -1,0 +1,98 @@
+<!Doctpye HTML>
+
+<head>
+<title>About The Solar System Simulation</title>
+<style>
+  @charset "utf-8";
+body
+{
+    margin: 0px;
+    padding: 20px;
+    background-color: #118bbf;
+    font-family: Ariel, Helvetica, "sans-serif";
+    font-size: 18px;
+    text-align: center;
+}
+
+#page
+{
+  text-align: left;
+  border: double 15px black;
+  background-color: #bfa475;
+}
+
+#text1
+{
+  text-align: left;
+  font: bold;
+}
+
+#headings
+{
+  margin: auto;
+  width: 450px;
+  border: double 10px #118bbf;
+
+}
+
+#button
+{
+  padding: 5px;
+  position: absolute;
+  left: 40px;
+  top: 110px;
+}
+
+#border
+{
+  border: groove 5px #118bbf;
+}
+
+#link
+{
+  float:left;
+}
+
+#link :hover{
+  background-color: #111;
+}
+</style>
+</head>
+<body>
+<div id = "page">
+<div id = "border">
+<ul style = "list-style-type: none; margin: 0; padding: 0; overflow: hidden; background-color: #af8c50;">
+  <div id = "link"><li><a style = "display: block; color: white; text-align: center; padding: 14px 16px; text-decoration: none;" class="active" href="SolarSystem.html">Back</a></div></li>
+</ul>
+</div>
+<u><h2 align = "left">How to use the simulation:</h2></u>
+<ul>
+  <li>Control Bar </li>
+  <p style = "font-size: 14px;">At the top of the screen, in line with the key are several buttons used to control the simulation.</p>
+  <p style = "font-size: 14px;">Each button does something different, use the image below to find out what each button does!</p>
+  <img style = "max-width: 800px"src = "../Solar Images/ButtonAbout.png">
+  <li>Key </li>
+  <p style = "font-size: 14px;">On the right of the control bar is a key. This key relates to each planet on screen and tells you which colour they are.</p>
+  <img style = "max-width: 350px"src="../Solar Images/Key.png">
+  <p style = "font-size: 14px;">What colour is Mars?</p>
+  <input type="text" id="colour">
+  <input type="submit" onclick="Colour()">
+  <p id = "answer" style = "font-size: 14px;"></p>
+  <li>Screen Layout</li>
+  <li>Using The Fact Files</li>
+</ul>
+</div>
+<script>
+  function Colour(){
+    let choice = document.getElementById("colour").value
+    let text = document.getElementById("answer")
+    if (choice == "red"){
+      text.innerHTML = "Well done you got it!";
+    } else if(choice == "blue"){
+      text.innerHTML = "Nearly! Hint: The colour is to the right of the planet's name";
+    } else{
+      text.innerHTML = "Not quite. Hint: The colour is to the right of the planet's name";
+    }
+  }
+</script>
+</body>

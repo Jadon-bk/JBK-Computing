@@ -1,0 +1,98 @@
+<!Doctpye HTML>
+<head>
+<title>Cannon Game</title>
+<link href = "CanStyles.css" rel= "stylesheet" type="text/css"> 
+</head>
+<body>
+<div id = "page">
+<div id = "border">
+<ul>
+  <li><a href="index.html">Home</a></li>
+</ul>
+</div>
+<div>
+<canvas id='motion' width='600' height='350' style="background: url('backg.jpg')""></canvas>
+</div>
+<button style = "font-size: 30px;" onclick = "calc()">Launch</button>
+<p>Change Angle:</p>
+<div id = "updown">
+<button style = "font-size: 20px;" onclick = "angleUp()">↑</button><button style = "font-size: 20px;" onclick = "angleDown()">↓</button>
+</div>
+</div>
+<script>
+  const motion = document.getElementById("motion");
+  const ctx = motion.getContext("2d");
+  const Width = document.getElementById("page").offsetWidth;
+
+  motion.width = Width-32;
+  var angle = 45;
+  var speed = 150;
+  var j = 0;
+  var xpos = [0];
+  var ypos = [10];
+
+  function angleUp(){
+    angle = angle+5;
+  }
+
+  function angleDown(){
+    angle = angle-5;
+  }
+
+  function draw(x, y){
+    ctx.beginPath();
+    ctx.arc(x, y, 3, 0, 2*Math.PI);
+    ctx.fillStyle = "purple";
+    ctx.fill();
+  }
+
+  function calc() {
+    //Reset Simulation//
+    ctx.clearRect(0, 0, motion.width, motion.height);
+    //Constants for sim//
+    const g = -9.81;
+    const dt = 0.01;
+    //Simulation//
+    const dragCoeff = 0.01;
+
+    var above_ground = true;
+    var i = 0;
+    j = 0;
+    xpos = [0];
+    ypos = [10];
+    var xvel = [speed*Math.cos(angle*Math.PI/180)];
+    var yvel = [speed*Math.sin(angle*Math.PI/180)];
+    var xacc = [0];
+    var yacc = [g];
+
+    while (above_ground == true){
+
+      xacc.push(dragCoeff*xvel[i]**2/5)
+      if (yvel[i] > 0){
+        yacc.push(g-dragCoeff*yvel[i]**2/5)
+      } else if (yvel[i] < 0){
+        yacc.push(g+dragCoeff*yvel[i]**2/5)
+      }
+
+      xvel.push(xvel[i]-xacc[i]*dt);
+      yvel.push(yvel[i]+yacc[i]*dt);
+
+      xpos.push(xpos[i]+xvel[i]*dt);  
+      ypos.push(ypos[i]+yvel[i]*dt);
+
+      if (ypos[i]<0){
+        above_ground = false;
+      } else {
+        i = i+1
+      }
+    }
+  }
+
+  function animate(){
+    draw(xpos[j],motion.height-ypos[j]);
+    j++
+  }
+
+  move = setInterval(animate);
+</script> 
+</body>

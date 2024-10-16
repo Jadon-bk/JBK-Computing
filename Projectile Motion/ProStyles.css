@@ -1,0 +1,85 @@
+@charset "utf-8";
+body
+{
+    margin: auto;
+    width: 95%;
+    padding: 20px;
+    background-color: #118bbf;
+    font-family: Ariel, Helvetica, "sans-serif";
+    font-size: 18px;
+    /* text-align: center; */
+    /* max-width: 1500px; */
+}
+
+#center{
+  text-align: center;
+}
+
+#page
+{
+  border: double 15px black;
+  align: center;
+  background-color: #bfa475;
+}
+
+#text1
+{
+  text-align: left;
+  font: bold;
+}
+#Physics
+{
+  height:200px;
+  width:250px;
+  gif-align: right;
+}
+#headings
+{
+  border: double 10px #118bbf;
+  width: 300px;
+}
+
+#button
+{
+  background-colour: #118bbf;
+}
+
+canvas
+{
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    textAlign: "center";
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #af8c50;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #111;
+}
+
+#border
+{
+  border: groove 5px #118bbf;
+}
+
+#value{
+  width: 50px;
+}
